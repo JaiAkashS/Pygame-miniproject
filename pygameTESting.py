@@ -31,8 +31,15 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                vertical_speed = jump_strength
+            if event.key == pygame.K_UP:
+                playerrect.y += -10
+            if event.key == pygame.K_LEFT:
+                playerrect.x += -10
+            if event.key == pygame.K_RIGHT:
+                playerrect.x += 10
+            if event.key == pygame.K_DOWN:
+                playerrect.y += 10
+        
         else:
             pass
 
@@ -44,8 +51,6 @@ while running:
     text_rect.topleft = (10, 10)
 
     # Apply gravity to the vertical speed
-    vertical_speed += gravity
-    playerrect.y += vertical_speed
     
     if playerrect.bottom >= 600:
         playerrect.bottom = 600
@@ -56,18 +61,7 @@ while running:
     pygame.draw.rect(screen, (255,255,255), [0, 600, 1300, 600], 1000)  
     screen.blit(score_text, text_rect)
 
-    for index, obstacle_rect in enumerate(obstacles):
-        obstacle_rect = obstacle_rect.move(speed)  # Move obstacle
-        obstacles[index] = obstacle_rect  # Update obstacle position in the list
-        screen.blit(obstacle, obstacle_rect)
-        if obstacle_rect.right <= 0:
-            obstacles[index].right = 1280 
-            obstacles[index].bottom = 600 
-        # Handle collision
-        if playerrect.colliderect(obstacle_rect):
-            print("Collision occurred!")
-            running = False
+   
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
-
